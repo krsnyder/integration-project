@@ -1,23 +1,37 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [file, setFile] = useState();
+  const [description, setDescription] = useState();
+
+  const submit = async e => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append('image', file)
+    data.append('description', description)
+    const result = axios.post('/posts', data);
+    console.log(result)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="header">
+        <h1>Image Upload Project</h1>
       </header>
+      <form>
+        <input
+          filename={file}
+          onChange={e => setFile(e.target.files[0])}
+          type='file'
+          accept="image/*"
+        ></input>
+        <input
+          onChange={e => setDescription(e.target.value)}
+          type="text"></input>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
