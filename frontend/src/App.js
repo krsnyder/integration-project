@@ -29,7 +29,9 @@ function App() {
         ></input>
         <input
           onChange={e => setDescription(e.target.value)}
-          type="text"></input>
+          type="text"
+          placeholder="description"
+        ></input>
         <button type="submit">Submit</button>
       </form>
     </div>
