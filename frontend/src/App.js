@@ -20,7 +20,7 @@ function App() {
       <header className="header">
         <h1>Image Upload Project</h1>
       </header>
-      <form>
+      <form onSubmit={submit}>
         <input
           filename={file}
           onChange={e => setFile(e.target.files[0])}
