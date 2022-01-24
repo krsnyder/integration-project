@@ -1,26 +1,30 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 var connection = mysql.createConnection({
   host     : process.env.MYSQL_HOST || 'localhost',
   user     : process.env.MYSQL_USER || 'root',
-  password : process.env.MYSQL_PASSWORD || '',
+  password : process.env.MYSQL_PASSWORD || 'root',
   database : process.env.MYSQL_DATABASE || 'integration'
 });
  
 connection.connect();
 
-function createPost() {
+function createPost(description, image_url, callback) {
 
   const query = `
-  INSERT INTO posts (descri)  
+  INSERT INTO posts (description, image_url)
+  VALUES (?, ?)  
   `
 
-  connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-    if (error) throw error;
-    console.log('The solution is: ', results[0].solution);
+  const params = [description, image_url]
+
+  connection.query(query, params, (error, result) => {
+    if (error) {
+      callback(error)
+      return
+    };
+    callback(null, result.insertId)
   });
-   
-  connection.end();
 
 }
 exports.createPost = createPost
